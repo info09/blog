@@ -1,3 +1,4 @@
+using BlogCMS.API;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Data;
 using Microsoft.AspNetCore.Identity;
@@ -51,5 +52,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MigrationDatabase();
 
 app.Run();
