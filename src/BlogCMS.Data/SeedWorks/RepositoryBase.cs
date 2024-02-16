@@ -7,9 +7,11 @@ namespace BlogCMS.Data.SeedWorks
     public class RepositoryBase<T, Key> : IRepository<T, Key> where T : class
     {
         private readonly DbSet<T> _dbSet;
-        public RepositoryBase(DbSet<T> dbSet)
+        protected readonly BlogCMSContext _context;
+        public RepositoryBase(BlogCMSContext context)
         {
-            _dbSet = dbSet;
+            _dbSet = context.Set<T>();
+            _context = context;
         }
         public void Add(T entity)
         {

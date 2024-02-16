@@ -2,6 +2,7 @@ using BlogCMS.API;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.SeedWorks;
 using BlogCMS.Data;
+using BlogCMS.Data.Repositories;
 using BlogCMS.Data.SeedWorks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,21 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//Business services and repositoríes
+var services = typeof(PostRepository).Assembly.GetTypes()
+                    .Where(i => i.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name) && 
+                                                            !i.IsAbstract && i.IsClass && !i.IsGenericType);
+
+foreach (var item in services)
+{
+    var allInterfaces = item.GetInterfaces();
+    var directInterface = allInterfaces.Except(allInterfaces.SelectMany(t => t.GetInterfaces())).FirstOrDefault();
+    if (directInterface != null)
+    {
+        builder.Services.Add(new ServiceDescriptor(directInterface, item, ServiceLifetime.Scoped));
+    }
+}
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
