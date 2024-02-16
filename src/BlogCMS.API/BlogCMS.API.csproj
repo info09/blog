@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlogCMS.Core\BlogCMS.Core.csproj" />
+    <ProjectReference Include="..\BlogCMS.Data\BlogCMS.Data.csproj" />
+  </ItemGroup>
+
 </Project>
