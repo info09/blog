@@ -1,4 +1,6 @@
 using BlogCMS.API;
+using BlogCMS.API.Services;
+using BlogCMS.Core.ConfigOptions;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models.Content;
 using BlogCMS.Core.SeedWorks;
@@ -58,6 +60,12 @@ foreach (var item in services)
 }
 
 builder.Services.AddAutoMapper(typeof(PostInListDto));
+
+builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
