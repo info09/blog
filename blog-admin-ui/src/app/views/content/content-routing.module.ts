@@ -1,3 +1,4 @@
+import { AuthGuard } from './../../shared/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostComponent } from './posts/post.component'
@@ -13,7 +14,9 @@ const routes: Routes = [
     component: PostComponent,
     data: {
       title: 'Posts',
+      requiredPolicy: 'Permissions.Posts.View'
     },
+    canActivate: [AuthGuard]
   },
 ];
 

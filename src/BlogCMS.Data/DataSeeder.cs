@@ -10,6 +10,7 @@ namespace BlogCMS.Data
             var passwordHasher = new PasswordHasher<AppUser>();
 
             var rootAdminRoleId = Guid.NewGuid();
+            var userRoleId = Guid.NewGuid();
             if (!context.Roles.Any())
             {
                 await context.Roles.AddAsync(new AppRole()
@@ -19,15 +20,24 @@ namespace BlogCMS.Data
                     NormalizedName = "ADMIN",
                     DisplayName = "Quản trị viên"
                 });
+                await context.Roles.AddAsync(new AppRole()
+                {
+                    Id = userRoleId,
+                    Name = "User",
+                    NormalizedName = "USER",
+                    DisplayName = "Người dùng"
+                });
                 await context.SaveChangesAsync();
             }
 
             if (!context.Users.Any())
             {
+                //User Admin
+                var userAdminId = Guid.NewGuid();
                 var userId = Guid.NewGuid();
-                var user = new AppUser()
+                var userAdmin = new AppUser()
                 {
-                    Id = userId,
+                    Id = userAdminId,
                     FirstName = "Huy",
                     LastName = "Tran",
                     Email = "huytq3103@gmail.com",
@@ -39,11 +49,34 @@ namespace BlogCMS.Data
                     LockoutEnabled = false,
                     DateCreated = DateTime.Now,
                 };
+                userAdmin.PasswordHash = passwordHasher.HashPassword(userAdmin, "Admin@123$");
+                await context.Users.AddAsync(userAdmin);
+                await context.UserRoles.AddAsync(new IdentityUserRole<Guid>()
+                {
+                    RoleId = rootAdminRoleId,
+                    UserId = userAdminId
+                });
+
+                // User người dùng
+                var user = new AppUser()
+                {
+                    Id = userId,
+                    FirstName = "Huy",
+                    LastName = "Tran",
+                    Email = "huytq3103@gmail.com",
+                    NormalizedEmail = "HUYTQ3103@GMAIL.COM",
+                    UserName = "huytq",
+                    NormalizedUserName = "HUYTQ",
+                    IsActive = true,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    LockoutEnabled = false,
+                    DateCreated = DateTime.Now,
+                };
                 user.PasswordHash = passwordHasher.HashPassword(user, "Admin@123$");
                 await context.Users.AddAsync(user);
                 await context.UserRoles.AddAsync(new IdentityUserRole<Guid>()
                 {
-                    RoleId = rootAdminRoleId,
+                    RoleId = userRoleId,
                     UserId = userId
                 });
 

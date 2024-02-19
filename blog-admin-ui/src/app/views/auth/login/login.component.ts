@@ -1,6 +1,6 @@
 import { UrlConstants } from './../../../shared/constants/url.constants';
 import { TokenStorageService } from './../../../shared/services/token-storage.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -12,7 +12,7 @@ import { AlertService } from 'src/app/shared/services/alert.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
   private ngUnsubscribe = new Subject<void>();
   loading = false;
@@ -21,9 +21,14 @@ export class LoginComponent {
       userName: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
-   }
+  }
 
-   login(){
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  login() {
     this.loading = true;
     var request: LoginRequest = new LoginRequest({
       userName: this.loginForm.controls['userName'].value,
@@ -37,12 +42,12 @@ export class LoginComponent {
         this.tokenService.saveUser(res);
         this.router.navigate([UrlConstants.HOME]);
       },
-      error: (err: any)=> {
+      error: (err: any) => {
         console.log(err);
         this.alertService.showError('Đăng nhập không thành công');
         this.loading = false;
       }
     })
-   }
+  }
 
 }
