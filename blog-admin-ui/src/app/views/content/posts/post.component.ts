@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AdminApiTestApiClient } from 'src/app/api/admin-api.service.generated';
 
 @Component({
   selector: 'app-post',
@@ -6,6 +7,16 @@ import { Component } from '@angular/core';
 })
 export class PostComponent {
 
-  constructor() { }
+  constructor(private testApiClient: AdminApiTestApiClient) { }
 
+  test(){
+    this.testApiClient.testAuthen().subscribe({
+      next: () => {
+        console.log('ok');
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+  }
 }
