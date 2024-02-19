@@ -3,6 +3,7 @@ import { TokenStorageService } from './../../../shared/services/token-storage.se
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { AdminApiAuthApiClient, AuthenticatedResult, LoginRequest } from 'src/app/api/admin-api.service.generated';
 import { AlertService } from 'src/app/shared/services/alert.service';
 
@@ -13,6 +14,8 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  private ngUnsubscribe = new Subject<void>();
+  loading = false;
   constructor(private fb: FormBuilder, private authApiClient: AdminApiAuthApiClient, private alertService: AlertService, private router: Router, private tokenService: TokenStorageService) {
     this.loginForm = this.fb.group({
       userName: new FormControl('', Validators.required),
@@ -21,12 +24,13 @@ export class LoginComponent {
    }
 
    login(){
+    this.loading = true;
     var request: LoginRequest = new LoginRequest({
       userName: this.loginForm.controls['userName'].value,
       password: this.loginForm.controls['password'].value
     });
 
-    this.authApiClient.login(request).subscribe({
+    this.authApiClient.login(request).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: (res: AuthenticatedResult) => {
         this.tokenService.saveToken(res.token);
         this.tokenService.saveRefreshToken(res.refreshToken);
@@ -36,6 +40,7 @@ export class LoginComponent {
       error: (err: any)=> {
         console.log(err);
         this.alertService.showError('Đăng nhập không thành công');
+        this.loading = false;
       }
     })
    }
