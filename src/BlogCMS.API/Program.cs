@@ -16,12 +16,22 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
+var BlogCorsPolicy = "BlogCorsPolicy";
 
-// Add services to the container.
+builder.Services.AddCors(o => o.AddPolicy(BlogCorsPolicy, builder =>
+{
+    builder.AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithOrigins(configuration["AllowedOrigins"])
+        .AllowCredentials();
+}));
+//Config DB Context and ASP.NET Core Identity
+builder.Services.AddDbContext<BlogCMSContext>(options =>
+                options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<BlogCMSContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<BlogCMSContext>();
 
-builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<BlogCMSContext>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -38,36 +48,41 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.AllowedForNewUsers = true;
 
     // User settings.
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
 });
 
+// Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-//Business services and repositoríes
+// Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()
-                    .Where(i => i.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name) && 
-                                                            !i.IsAbstract && i.IsClass && !i.IsGenericType);
+    .Where(x => x.GetInterfaces().Any(i => i.Name == typeof(IRepository<,>).Name)
+    && !x.IsAbstract && x.IsClass && !x.IsGenericType);
 
-foreach (var item in services)
+foreach (var service in services)
 {
-    var allInterfaces = item.GetInterfaces();
+    var allInterfaces = service.GetInterfaces();
     var directInterface = allInterfaces.Except(allInterfaces.SelectMany(t => t.GetInterfaces())).FirstOrDefault();
     if (directInterface != null)
     {
-        builder.Services.Add(new ServiceDescriptor(directInterface, item, ServiceLifetime.Scoped));
+        builder.Services.Add(new ServiceDescriptor(directInterface, service, ServiceLifetime.Scoped));
     }
 }
 
+//Auto mapper
 builder.Services.AddAutoMapper(typeof(PostInListDto));
 
+//Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
-builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
+//Default config for ASP.NET Core
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -99,13 +114,14 @@ if (app.Environment.IsDevelopment())
         c.DisplayRequestDuration();
     });
 }
-
+app.UseCors(BlogCorsPolicy);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+//Seeding data
 app.MigrationDatabase();
 
 app.Run();
