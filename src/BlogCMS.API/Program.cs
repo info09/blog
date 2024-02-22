@@ -1,4 +1,5 @@
 using BlogCMS.API;
+using BlogCMS.API.Authorization;
 using BlogCMS.API.Filters;
 using BlogCMS.API.Services;
 using BlogCMS.Core.ConfigOptions;
@@ -9,6 +10,7 @@ using BlogCMS.Data;
 using BlogCMS.Data.Repositories;
 using BlogCMS.Data.SeedWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,6 +22,9 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 var TeduCorsPolicy = "TeduCorsPolicy";
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
 builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
 {
