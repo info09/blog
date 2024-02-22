@@ -19,9 +19,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
-var BlogCorsPolicy = "BlogCorsPolicy";
+var TeduCorsPolicy = "TeduCorsPolicy";
 
-builder.Services.AddCors(o => o.AddPolicy(BlogCorsPolicy, builder =>
+builder.Services.AddCors(o => o.AddPolicy(TeduCorsPolicy, builder =>
 {
     builder.AllowAnyMethod()
         .AllowAnyHeader()
@@ -113,7 +113,7 @@ builder.Services.AddAuthentication(o =>
     cfg.RequireHttpsMetadata = false;
     cfg.SaveToken = true;
 
-    cfg.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    cfg.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = configuration["JwtTokenSettings:Issuer"],
         ValidAudience = configuration["JwtTokenSettings:Issuer"],
@@ -134,11 +134,9 @@ if (app.Environment.IsDevelopment())
         c.DisplayRequestDuration();
     });
 }
-app.UseCors(BlogCorsPolicy);
+app.UseCors(TeduCorsPolicy);
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllers();
