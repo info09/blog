@@ -32,6 +32,15 @@ namespace BlogCMS.API.Controllers.AdminApi
             return Ok(model);
         }
 
+        [HttpGet("{id}")]
+        [Authorize(Permissions.Roles.View)]
+        public async Task<ActionResult<RoleDto>> GetRoleById(Guid id)
+        {
+            var result = await _roleManager.FindByIdAsync(id.ToString());
+            var data = _mapper.Map<RoleDto>(result);
+            return Ok(data);
+        }
+
         [HttpGet("paging")]
         [Authorize(Permissions.Roles.View)]
         public async Task<ActionResult<PagedResult<RoleDto>>> GetRolesPaging(string? keyword, int pageIndex = 1, int pageSize = 10)

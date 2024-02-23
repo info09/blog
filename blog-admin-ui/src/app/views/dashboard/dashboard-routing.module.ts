@@ -13,12 +13,11 @@ const routes: Routes = [
       requiredPolicy: 'Permissions.Dashboard.View',
     },
     canActivate: [AuthGuard],
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardRoutingModule {
-}
+export class DashboardRoutingModule {}

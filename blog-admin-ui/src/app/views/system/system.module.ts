@@ -1,3 +1,4 @@
+import { BlogSharedModule } from './../../shared/modules/blog-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,8 @@ import { SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { RolesDetailComponent } from './roles/roles-detail.component';
+import { KeyFilterModule} from 'primeng/keyfilter'
 
 @NgModule({
   imports: [
@@ -27,8 +30,11 @@ import { InputTextModule } from 'primeng/inputtext';
     CheckboxModule,
     ButtonModule,
     InputTextModule,
-    SharedModule
+    SharedModule,
+    KeyFilterModule,
+    SharedModule,
+    BlogSharedModule
   ],
-  declarations: [UserComponent, RoleComponent],
+  declarations: [UserComponent, RoleComponent, RolesDetailComponent],
 })
 export class SystemModule {}

@@ -1,5 +1,3 @@
-import { GlobalHttpInterceptorService } from './shared/interceptors/error-handler.interceptor';
-import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { NgModule } from '@angular/core';
 import {
   HashLocationStrategy,
@@ -47,15 +45,25 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { ADMIN_API_BASE_URL, AdminApiAuthApiClient, AdminApiRoleApiClient, AdminApiTestApiClient, AdminApiTokenApiClient } from './api/admin-api.service.generated';
+import {
+  ADMIN_API_BASE_URL,
+  AdminApiAuthApiClient,
+  AdminApiRoleApiClient,
+  AdminApiTestApiClient,
+  AdminApiTokenApiClient,
+} from './api/admin-api.service.generated';
 import { environment } from './../environments/environment';
-
 import { ToastModule } from 'primeng/toast';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AlertService } from './shared/services/alert.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenStorageService } from './shared/services/token-storage.service';
 import { AuthGuard } from './shared/auth.guard';
-import {DialogService} from 'primeng/dynamicdialog'
+import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { GlobalHttpInterceptorService } from './shared/interceptors/error-handler.interceptor';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { UtilityService } from './shared/services/utility.service';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -93,7 +101,9 @@ const APP_CONTAINERS = [
     CardModule,
     NgScrollbarModule,
     ToastModule,
-    HttpClientModule
+    HttpClientModule,
+    ConfirmDialogModule,
+    DynamicDialogModule
   ],
   providers: [
     { provide: ADMIN_API_BASE_URL, useValue: environment.API_URL },
@@ -116,12 +126,14 @@ const APP_CONTAINERS = [
     MessageService,
     AlertService,
     AdminApiAuthApiClient,
+    TokenStorageService,
     AuthGuard,
     AdminApiTestApiClient,
     AdminApiTokenApiClient,
     AdminApiRoleApiClient,
     DialogService,
-    ConfirmationService
+    UtilityService,
+    ConfirmationService 
   ],
   bootstrap: [AppComponent],
 })
