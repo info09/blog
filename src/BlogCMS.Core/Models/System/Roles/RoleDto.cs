@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlogCMS.Core.Models.System
+namespace BlogCMS.Core.Models.System.Roles
 {
     public class RoleDto
     {
