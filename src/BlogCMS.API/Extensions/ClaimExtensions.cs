@@ -1,5 +1,5 @@
 ﻿using BlogCMS.Core.Domain.Identity;
-using BlogCMS.Core.Models.System;
+using BlogCMS.Core.Models.System.Roles;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.Reflection;

@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using BlogCMS.API.Extensions;
+using BlogCMS.API.Filters;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models;
-using BlogCMS.Core.Models.System;
+using BlogCMS.Core.Models.System.Roles;
 using BlogCMS.Core.SeedWorks.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -67,6 +68,7 @@ namespace BlogCMS.API.Controllers.AdminApi
 
         [HttpPost]
         [Authorize(Permissions.Roles.Create)]
+        [ValidateModel]
         public async Task<IActionResult> CreateRole([FromBody] CreateUpdateRoleRequest request)
         {
             await _roleManager.CreateAsync(new AppRole() { DisplayName = request.DisplayName, Name = request.Name, Id = Guid.NewGuid() });
@@ -75,6 +77,7 @@ namespace BlogCMS.API.Controllers.AdminApi
 
         [HttpPut("{id}")]
         [Authorize(Permissions.Roles.Edit)]
+        [ValidateModel]
         public async Task<IActionResult> UpdateRole(Guid id, [FromBody] CreateUpdateRoleRequest request)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());

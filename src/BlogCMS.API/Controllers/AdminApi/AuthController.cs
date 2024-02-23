@@ -2,7 +2,7 @@
 using BlogCMS.API.Services;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models.Auth;
-using BlogCMS.Core.Models.System;
+using BlogCMS.Core.Models.System.Roles;
 using BlogCMS.Core.SeedWorks.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

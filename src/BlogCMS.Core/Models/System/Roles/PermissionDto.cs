@@ -1,4 +1,4 @@
-﻿namespace BlogCMS.Core.Models.System
+﻿namespace BlogCMS.Core.Models.System.Roles
 {
     public class PermissionDto
     {
