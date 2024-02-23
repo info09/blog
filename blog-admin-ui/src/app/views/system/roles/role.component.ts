@@ -1,3 +1,4 @@
+import { PermissionGrantComponent } from './permission-grant.component';
 import { RolesDetailComponent } from './roles-detail.component';
 import { MessageConstants } from './../../../shared/constants/message.constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -64,16 +65,35 @@ export class RoleComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
-  showPermissionModal(id: string, name: string) { }
-  showEditModal() { 
-    if(this.selectedItems.length == 0){
+  showPermissionModal(id: string, name: string) {
+    const ref = this.dialogService.open(PermissionGrantComponent, {
+      data: { id: id },
+      header: name,
+      width: '70%'
+    });
+    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+    ref.onClose.subscribe((data: RoleDto) => {
+      if (data) {
+        this.alertService.showSuccess(
+          MessageConstants.UPDATED_OK_MSG
+        );
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
+  }
+  showEditModal() {
+    if (this.selectedItems.length == 0) {
       this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
     }
 
     var id = this.selectedItems[0].id;
     const ref = this.dialogService.open(RolesDetailComponent, {
-      data: {id: id},
+      data: { id: id },
       header: 'Cập nhật quyền',
       width: '70%'
     });
@@ -83,7 +103,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
 
     ref.onClose.subscribe((data: RoleDto) => {
-      if(data){
+      if (data) {
         this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
         this.selectedItems = [];
         this.loadData();
@@ -101,15 +121,15 @@ export class RoleComponent implements OnInit, OnDestroy {
     const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((data: RoleDto) => {
-      if(data){
+      if (data) {
         this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
         this.selectedItems = [];
         this.loadData();
       }
     })
-   }
-  deleteItems() { 
-    if(this.selectedItems.length == 0){
+  }
+  deleteItems() {
+    if (this.selectedItems.length == 0) {
       this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
       return;
     }
@@ -130,17 +150,17 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
 
     this.roleService.deleteRoles(ids).subscribe({
-        next: () => {
-            this.alertService.showSuccess(
-                MessageConstants.DELETED_OK_MSG
-            );
-            this.loadData();
-            this.selectedItems = [];
-            this.toggleBlockUI(false);
-        },
-        error: () => {
-            this.toggleBlockUI(false);
-        },
+      next: () => {
+        this.alertService.showSuccess(
+          MessageConstants.DELETED_OK_MSG
+        );
+        this.loadData();
+        this.selectedItems = [];
+        this.toggleBlockUI(false);
+      },
+      error: () => {
+        this.toggleBlockUI(false);
+      },
     });
   }
 }
