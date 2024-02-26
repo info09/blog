@@ -22,6 +22,7 @@ import { PickListModule } from 'primeng/picklist';
 import { ImageModule } from 'primeng/image';
 import { RoleDetailComponent } from './roles/role-detail.component';
 import { UserDetailComponent } from './users/user-detail.component';
+import { SetPasswordComponent } from './users/set-password.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { UserDetailComponent } from './users/user-detail.component';
     RoleDetailComponent,
     PermissionGrantComponent,
     UserDetailComponent,
-    ChangeEmailComponent
+    ChangeEmailComponent,
+    SetPasswordComponent
   ],
 })
 export class SystemModule {}
