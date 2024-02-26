@@ -38,7 +38,8 @@ builder.Services.AddDbContext<BlogCMSContext>(options =>
                 options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<BlogCMSContext>();
+    .AddEntityFrameworkStores<BlogCMSContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

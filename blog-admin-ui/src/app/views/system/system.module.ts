@@ -1,3 +1,4 @@
+import { ChangeEmailComponent } from './users/change-email.component';
 import { BlogSharedModule } from './../../shared/modules/blog-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -47,7 +48,8 @@ import { UserDetailComponent } from './users/user-detail.component';
     RoleComponent,
     RoleDetailComponent,
     PermissionGrantComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    ChangeEmailComponent
   ],
 })
 export class SystemModule {}

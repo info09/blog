@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { AdminApiUserApiClient, UserDto, UserDtoPagedResult } from 'src/app/api/admin-api.service.generated';
 import { MessageConstants } from 'src/app/shared/constants/message.constants';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { ChangeEmailComponent } from './change-email.component';
 
 @Component({
   selector: 'app-user',
@@ -82,7 +83,7 @@ export class UserComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(UserDetailComponent, {
       data: { id: id },
       header: 'Cập nhật người dùng',
-      width: '7-%'
+      width: '70%'
     });
 
     const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
@@ -125,7 +126,26 @@ export class UserComponent implements OnInit, OnDestroy {
     })
   }
   setPassword(id: string) { }
-  changeEmail(id: string) { }
+
+  changeEmail(id: string) {
+    const ref = this.dialogService.open(ChangeEmailComponent,{
+      data:{id:id},
+      header: 'Đặt lại email',
+      width: '70%'
+    });
+    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+    ref.onClose.subscribe((res: boolean) => {
+      if(res){
+        this.alertService.showSuccess(MessageConstants.CHANGE_EMAIL_SUCCCESS_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
+   }
+
   assignRole(id: string) { }
 
 
