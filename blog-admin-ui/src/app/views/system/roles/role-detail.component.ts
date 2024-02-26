@@ -12,9 +12,9 @@ import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
-    templateUrl: 'roles-detail.component.html',
+    templateUrl: 'role-detail.component.html',
 })
-export class RolesDetailComponent implements OnInit, OnDestroy {
+export class RoleDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
 
     // Default

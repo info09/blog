@@ -14,9 +14,13 @@ import { SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { RolesDetailComponent } from './roles/roles-detail.component';
-import { KeyFilterModule} from 'primeng/keyfilter'
+import { KeyFilterModule } from 'primeng/keyfilter';
 import { PermissionGrantComponent } from './roles/permission-grant.component';
+import { BadgeModule } from 'primeng/badge';
+import { PickListModule } from 'primeng/picklist';
+import { ImageModule } from 'primeng/image';
+import { RoleDetailComponent } from './roles/role-detail.component';
+import { UserDetailComponent } from './users/user-detail.component';
 
 @NgModule({
   imports: [
@@ -31,11 +35,19 @@ import { PermissionGrantComponent } from './roles/permission-grant.component';
     CheckboxModule,
     ButtonModule,
     InputTextModule,
-    SharedModule,
     KeyFilterModule,
     SharedModule,
-    BlogSharedModule
+    BlogSharedModule,
+    BadgeModule,
+    PickListModule,
+    ImageModule
   ],
-  declarations: [UserComponent, RoleComponent, RolesDetailComponent, PermissionGrantComponent],
+  declarations: [
+    UserComponent,
+    RoleComponent,
+    RoleDetailComponent,
+    PermissionGrantComponent,
+    UserDetailComponent
+  ],
 })
 export class SystemModule {}
