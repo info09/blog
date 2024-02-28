@@ -1,3 +1,4 @@
+import { PostCategoryComponent } from './post-categories/post-category.component';
 import { AuthGuard } from './../../shared/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -15,6 +16,15 @@ const routes: Routes = [
     data: {
       title: 'Posts',
       requiredPolicy: 'Permissions.Posts.View'
+    },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'post-categories',
+    component: PostCategoryComponent,
+    data: {
+      title: 'Danh mục',
+      requiredPolicy: 'Permissions.PostCategories.View'
     },
     canActivate: [AuthGuard]
   },

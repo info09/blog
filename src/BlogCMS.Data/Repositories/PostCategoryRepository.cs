@@ -18,7 +18,7 @@ namespace BlogCMS.Data.Repositories
 
         public async Task<PagedResult<PostCategoryDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10)
         {
-            var query = _context.Posts.AsQueryable();
+            var query = _context.PostCategories.AsQueryable();
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(i => i.Name.Trim().ToLower().Contains(keyword.Trim().ToLower()));
 
