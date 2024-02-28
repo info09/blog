@@ -1,6 +1,6 @@
 ﻿using BlogCMS.Core.Domain.Content;
 using BlogCMS.Core.Models;
-using BlogCMS.Core.Models.Content;
+using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.SeedWorks;
 
 namespace BlogCMS.Core.Repositories

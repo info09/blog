@@ -4,7 +4,7 @@ using BlogCMS.API.Filters;
 using BlogCMS.API.Services;
 using BlogCMS.Core.ConfigOptions;
 using BlogCMS.Core.Domain.Identity;
-using BlogCMS.Core.Models.Content;
+using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.SeedWorks;
 using BlogCMS.Data;
 using BlogCMS.Data.Repositories;

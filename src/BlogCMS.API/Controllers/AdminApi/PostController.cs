@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BlogCMS.Core.Domain.Content;
 using BlogCMS.Core.Models;
-using BlogCMS.Core.Models.Content;
+using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.SeedWorks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

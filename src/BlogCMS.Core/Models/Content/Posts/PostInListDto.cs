@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace BlogCMS.Core.Models.Content
+namespace BlogCMS.Core.Models.Content.Posts
 {
     public class PostInListDto
     {

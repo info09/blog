@@ -2,7 +2,7 @@
 using BlogCMS.Core.Domain.Content;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogCMS.Core.Models.Content
+namespace BlogCMS.Core.Models.Content.Posts
 {
     public class CreateUpdatePostRequest
     {

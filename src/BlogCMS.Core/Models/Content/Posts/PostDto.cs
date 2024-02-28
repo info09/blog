@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BlogCMS.Core.Domain.Content;
 
-namespace BlogCMS.Core.Models.Content
+namespace BlogCMS.Core.Models.Content.Posts
 {
     public class PostDto : PostInListDto
     {
