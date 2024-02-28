@@ -1,3 +1,4 @@
+import { RoleAssignComponent } from './users/role-assign.component';
 import { ChangeEmailComponent } from './users/change-email.component';
 import { BlogSharedModule } from './../../shared/modules/blog-shared.module';
 import { NgModule } from '@angular/core';
@@ -51,7 +52,8 @@ import { SetPasswordComponent } from './users/set-password.component';
     PermissionGrantComponent,
     UserDetailComponent,
     ChangeEmailComponent,
-    SetPasswordComponent
+    SetPasswordComponent,
+    RoleAssignComponent
   ],
 })
 export class SystemModule {}

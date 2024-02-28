@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
+using static BlogCMS.Core.SeedWorks.Constants.Permissions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -87,9 +88,9 @@ builder.Services.AddAutoMapper(typeof(PostInListDto));
 //Authen and author
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
 //Default config for ASP.NET Core
 builder.Services.AddControllers();

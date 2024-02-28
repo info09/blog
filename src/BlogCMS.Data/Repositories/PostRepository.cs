@@ -27,7 +27,7 @@ namespace BlogCMS.Data.Repositories
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(i => i.Name.Trim().ToLower().Contains(keyword.Trim().ToLower()));
 
-            if(categoryId.HasValue)
+            if (categoryId.HasValue)
                 query = query.Where(i => i.CategoryId == categoryId.Value);
 
             var totalRow = await query.CountAsync();

@@ -4,7 +4,7 @@ using BlogCMS.API.Filters;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models;
 using BlogCMS.Core.Models.System.Users;
-using BlogCMS.Core.SeedWorks.Constants;
+using BlogCMS.Core.SeedWorks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +19,13 @@ namespace BlogCMS.API.Controllers.AdminApi
     {
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(IMapper mapper, UserManager<AppUser> userManager)
+        public UserController(IMapper mapper, UserManager<AppUser> userManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
@@ -190,15 +192,13 @@ namespace BlogCMS.API.Controllers.AdminApi
                 return NotFound();
             }
             var currentRoles = await _userManager.GetRolesAsync(user);
-            var removedResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _unitOfWork.Users.RemoveRolesFromUser(user, currentRoles.ToArray());
             var addedResult = await _userManager.AddToRolesAsync(user, roles);
-            if (!addedResult.Succeeded || !removedResult.Succeeded)
+            if (!addedResult.Succeeded)
             {
                 List<IdentityError> addedErrorList = addedResult.Errors.ToList();
-                List<IdentityError> removedErrorList = removedResult.Errors.ToList();
                 var errorList = new List<IdentityError>();
                 errorList.AddRange(addedErrorList);
-                errorList.AddRange(removedErrorList);
 
                 return BadRequest(string.Join("<br/>", errorList.Select(x => x.Description)));
             }

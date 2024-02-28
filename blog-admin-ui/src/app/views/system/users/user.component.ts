@@ -8,6 +8,7 @@ import { AdminApiUserApiClient, UserDto, UserDtoPagedResult } from 'src/app/api/
 import { MessageConstants } from 'src/app/shared/constants/message.constants';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { ChangeEmailComponent } from './change-email.component';
+import { RoleAssignComponent } from './role-assign.component';
 
 @Component({
   selector: 'app-user',
@@ -127,8 +128,8 @@ export class UserComponent implements OnInit, OnDestroy {
     })
   }
   setPassword(id: string) {
-    const ref = this.dialogService.open(SetPasswordComponent,{
-      data:{id:id},
+    const ref = this.dialogService.open(SetPasswordComponent, {
+      data: { id: id },
       header: 'Đặt lại mật khẩu',
       width: '70%'
     });
@@ -137,17 +138,17 @@ export class UserComponent implements OnInit, OnDestroy {
     const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((res: boolean) => {
-      if(res){
+      if (res) {
         this.alertService.showSuccess(MessageConstants.CHANGE_PASSWORD_SUCCCESS_MSG);
         this.selectedItems = [];
         this.loadData();
       }
     })
-   }
+  }
 
   changeEmail(id: string) {
-    const ref = this.dialogService.open(ChangeEmailComponent,{
-      data:{id:id},
+    const ref = this.dialogService.open(ChangeEmailComponent, {
+      data: { id: id },
       header: 'Đặt lại email',
       width: '70%'
     });
@@ -156,15 +157,33 @@ export class UserComponent implements OnInit, OnDestroy {
     const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
     dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((res: boolean) => {
-      if(res){
+      if (res) {
         this.alertService.showSuccess(MessageConstants.CHANGE_EMAIL_SUCCCESS_MSG);
         this.selectedItems = [];
         this.loadData();
       }
     })
-   }
+  }
 
-  assignRole(id: string) { }
+  assignRole(id: string) {
+    const ref = this.dialogService.open(RoleAssignComponent, {
+      data: { id: id },
+      header: 'Gán quyền',
+      width: '70%'
+    });
+    const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+    const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+    const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+    dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+
+    ref.onClose.subscribe((res: boolean) => {
+      if (res) {
+        this.alertService.showSuccess(MessageConstants.ROLE_ASSIGN_SUCCESS_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
+  }
 
 
   pageChanged(event: any): void {
