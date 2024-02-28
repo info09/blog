@@ -68,7 +68,8 @@ namespace BlogCMS.API.Controllers.AdminApi
             if (category == null) return NotFound();
 
             _mapper.Map(request, category);
-            return Ok();
+            var result = await _unitOfWork.CompleteAsync();
+            return result > 0 ? Ok() : BadRequest();
         }
 
         [HttpDelete]
