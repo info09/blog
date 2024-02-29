@@ -72,7 +72,7 @@ export class SeriesComponent implements OnInit, OnDestroy {
             width: '70%',
         });
         ref.onClose.subscribe((data: SeriesDto) => {
-            if(data){
+            if (data) {
                 this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
                 this.selectedItems = [];
                 this.loadData();
@@ -80,8 +80,32 @@ export class SeriesComponent implements OnInit, OnDestroy {
         })
     }
     showPosts() { }
-    deleteItems() { }
-    deleteItemsConfirm(ids: any[]) { }
+    deleteItems() {
+        if (this.selectedItems.length == 0) {
+            this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+        var ids = [];
+        this.selectedItems.forEach(el => ids.push(el.id));
+        this.confirmationService.confirm({
+            message: MessageConstants.CONFIRM_DELETE_MSG,
+            accept: () => this.deleteItemsConfirm(ids)
+        })
+    }
+    deleteItemsConfirm(ids: any[]) { 
+        this.toggleBlockUI(true);
+        this.seriesService.deleteSeries(ids).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+            next: () => {
+                this.alertService.showSuccess(MessageConstants.DELETED_OK_MSG);
+                this.selectedItems = [];
+                this.loadData();
+                this.toggleBlockUI(false);
+            },
+            error: () => {
+                this.toggleBlockUI(false);
+            }
+        })
+    }
 
     pageChanged(event: any): void {
         this.pageIndex = event.page;
