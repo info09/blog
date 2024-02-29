@@ -142,6 +142,9 @@ if (app.Environment.IsDevelopment())
         c.DisplayRequestDuration();
     });
 }
+
+app.UseStaticFiles();
+
 app.UseCors(TeduCorsPolicy);
 app.UseHttpsRedirection();
 app.UseAuthentication();

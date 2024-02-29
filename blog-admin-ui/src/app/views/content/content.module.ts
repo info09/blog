@@ -1,4 +1,3 @@
-import { SeriesComponent } from './series/series.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +17,18 @@ import { TableModule } from 'primeng/table';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ImageModule } from 'primeng/image';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { EditorModule } from 'primeng/editor';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { PostComponent } from './posts/post.component';
+import { SeriesComponent } from './series/series.component';
+import { SeriesDetailComponent } from './series/series-detail.component';
 import { BlogSharedModule } from 'src/app/shared/modules/blog-shared.module';
+
 @NgModule({
   imports: [
     ContentRoutingModule,
@@ -36,12 +46,21 @@ import { BlogSharedModule } from 'src/app/shared/modules/blog-shared.module';
     KeyFilterModule,
     BlogSharedModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    EditorModule,
+    InputNumberModule,
+    ImageModule,
+    AutoCompleteModule,
+    DynamicDialogModule
   ],
   declarations: [
+    PostComponent,
     PostCategoryComponent,
     PostCategoryDetailComponent,
-    SeriesComponent
+    SeriesComponent,
+    SeriesDetailComponent,
   ]
 })
 export class ContentModule {
