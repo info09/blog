@@ -11,11 +11,12 @@ namespace BlogCMS.Data.SeedWorks
     {
         private readonly BlogCMSContext _context;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly UserManager<AppUser> userManager;
 
-        public UnitOfWork(BlogCMSContext context, IMapper mapper, RoleManager<AppRole> roleManager)
+        public UnitOfWork(BlogCMSContext context, IMapper mapper, RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
         {
             _context = context;
-            Posts = new PostRepository(context, mapper);
+            Posts = new PostRepository(context, mapper, userManager);
             Users = new UserRepository(context, roleManager);
             PostCategories = new PostCategoryRepository(context, mapper);
         }
