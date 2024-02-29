@@ -53,10 +53,10 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
             header: 'Thêm mới danh mục',
             width: '70%'
         });
-        const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-        const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-        const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-        dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+        // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+        // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+        // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+        // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
         ref.onClose.subscribe((data: PostCategoryDto) => {
             if (data) {
                 this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
@@ -76,10 +76,10 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
             header: 'Cập nhật danh mục',
             width: '70%'
         });
-        const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-        const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-        const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-        dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+        // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+        // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+        // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+        // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
         ref.onClose.subscribe((data: PostCategoryDto) => {
             if (data) {
                 this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);

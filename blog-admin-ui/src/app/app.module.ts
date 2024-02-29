@@ -1,3 +1,4 @@
+import { UploadService } from './shared/services/upload.service';
 import { NgModule } from '@angular/core';
 import {
   HashLocationStrategy,
@@ -48,8 +49,10 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import {
   ADMIN_API_BASE_URL,
   AdminApiAuthApiClient,
+  AdminApiPostApiClient,
   AdminApiPostCategoryApiClient,
   AdminApiRoleApiClient,
+  AdminApiSeriesApiClient,
   AdminApiTestApiClient,
   AdminApiTokenApiClient,
   AdminApiUserApiClient,
@@ -135,9 +138,12 @@ const APP_CONTAINERS = [
     AdminApiRoleApiClient,
     AdminApiUserApiClient,
     AdminApiPostCategoryApiClient,
+    AdminApiPostApiClient,
+    AdminApiSeriesApiClient,
     DialogService,
     UtilityService,
-    ConfirmationService 
+    ConfirmationService ,
+    UploadService
   ],
   bootstrap: [AppComponent],
 })

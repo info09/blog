@@ -1,3 +1,4 @@
+import { SeriesComponent } from './series/series.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -39,7 +40,8 @@ import { BlogSharedModule } from 'src/app/shared/modules/blog-shared.module';
   ],
   declarations: [
     PostCategoryComponent,
-    PostCategoryDetailComponent
+    PostCategoryDetailComponent,
+    SeriesComponent
   ]
 })
 export class ContentModule {
