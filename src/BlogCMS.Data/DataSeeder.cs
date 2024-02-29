@@ -1,4 +1,5 @@
-﻿using BlogCMS.Core.Domain.Identity;
+﻿using BlogCMS.Core.Domain.Content;
+using BlogCMS.Core.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace BlogCMS.Data
@@ -78,6 +79,19 @@ namespace BlogCMS.Data
                 {
                     RoleId = userRoleId,
                     UserId = userId
+                });
+
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.PostCategories.Any())
+            {
+                await context.PostCategories.AddAsync(new PostCategory()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Lập trình",
+                    Slug = "lap-trinh",
+                    IsActive = true
                 });
 
                 await context.SaveChangesAsync();
