@@ -7,6 +7,7 @@ namespace BlogCMS.Core.SeedWorks
         IPostRepository Posts { get; }
         IUserRepository Users { get; }
         IPostCategoryRepository PostCategories { get; }
+        ISeriesRepository Series { get; }
         Task<int> CompleteAsync();
     }
 }

@@ -19,12 +19,15 @@ namespace BlogCMS.Data.SeedWorks
             Posts = new PostRepository(context, mapper, userManager);
             Users = new UserRepository(context, roleManager);
             PostCategories = new PostCategoryRepository(context, mapper);
+            Series = new SeriesRepository(context, mapper);
         }
 
         public IPostRepository Posts { get; private set; }
         public IUserRepository Users { get; private set; }
 
         public IPostCategoryRepository PostCategories { get; private set; }
+
+        public ISeriesRepository Series { get; private set; }
 
         public async Task<int> CompleteAsync()
         {
