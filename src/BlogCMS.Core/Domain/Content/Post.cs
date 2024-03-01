@@ -63,11 +63,11 @@ namespace BlogCMS.Core.Domain.Content
 
     public enum PostStatus
     {
-        Draft = 1,
-        Canceled = 2,
-        WaitingForApproval = 3,
-        Rejected = 4,
-        WaitingForPublish = 5,
-        Published = 6
+        Draft = 0,
+        Canceled = 1,
+        WaitingForApproval = 2,
+        Rejected = 3,
+        WaitingForPublish = 4,
+        Published = 5
     }
 }

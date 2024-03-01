@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { SeriesDetailComponent } from './series-detail.component';
 import { MessageConstants } from 'src/app/shared/constants/message.constants';
+import { SeriesPostsComponent } from './series-posts.component';
 @Component({
     selector: 'app-series',
     templateUrl: './series.component.html'
@@ -79,7 +80,25 @@ export class SeriesComponent implements OnInit, OnDestroy {
             }
         })
     }
-    showPosts() { }
+    showPosts() { 
+        if (this.selectedItems.length == 0) {
+            this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+        var id = this.selectedItems[0].id;
+        const ref = this.dialogService.open(SeriesPostsComponent, {
+            data: { id: id },
+            header: 'Quản lý danh sách bài viết',
+            width: '70%',
+        });
+        ref.onClose.subscribe((data: SeriesDto) => {
+            if (data) {
+                this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
+                this.selectedItems = [];
+                this.loadData();
+            }
+        })
+    }
     deleteItems() {
         if (this.selectedItems.length == 0) {
             this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);

@@ -369,20 +369,15 @@ export class AdminApiPostApiClient {
 
     /**
      * @param keyword (optional) 
-     * @param userId (optional) 
      * @param categoryId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getPostsPaging(keyword?: string | null | undefined, userId?: string | undefined, categoryId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPagedResult> {
+    getPostsPaging(keyword?: string | null | undefined, categoryId?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostInListDtoPagedResult> {
         let url_ = this.baseUrl + "/api/admin/post/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
-        if (userId === null)
-            throw new Error("The parameter 'userId' cannot be null.");
-        else if (userId !== undefined)
-            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         if (categoryId !== undefined && categoryId !== null)
             url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
         if (pageIndex === null)

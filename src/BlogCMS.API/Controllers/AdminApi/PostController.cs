@@ -92,8 +92,9 @@ namespace BlogCMS.API.Controllers.AdminApi
 
         [HttpGet("paging")]
         [Authorize(Posts.View)]
-        public async Task<ActionResult<PagedResult<PostInListDto>>> GetPostsPaging(string? keyword, Guid userId, Guid? categoryId, int pageIndex, int pageSize)
+        public async Task<ActionResult<PagedResult<PostInListDto>>> GetPostsPaging(string? keyword, Guid? categoryId, int pageIndex, int pageSize)
         {
+            var userId = User.GetUserId();
             var result = await _unitOfWork.Posts.GetAllPaging(keyword, userId, categoryId, pageIndex, pageSize);
             return Ok(result);
         }
