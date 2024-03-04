@@ -155,7 +155,7 @@ namespace BlogCMS.Data.Repositories
             {
                 Id = Guid.NewGuid(),
                 FromStatus = post.Status,
-                ToStatus = PostStatus.Published,
+                ToStatus = PostStatus.Rejected,
                 UserId = currentUserId,
                 UserName = user.UserName,
                 PostId = post.Id,
@@ -175,7 +175,7 @@ namespace BlogCMS.Data.Repositories
             {
                 Id = Guid.NewGuid(),
                 FromStatus = post.Status,
-                ToStatus = PostStatus.Published,
+                ToStatus = PostStatus.WaitingForApproval,
                 UserId = currentUserId,
                 UserName = user.UserName,
                 PostId = post.Id,

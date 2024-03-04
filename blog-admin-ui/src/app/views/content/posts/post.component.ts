@@ -1,3 +1,4 @@
+import { PostSeriesComponent } from './post-series.component';
 import { PostDetailComponent } from './post-detail.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
@@ -6,6 +7,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { AdminApiPostApiClient, AdminApiPostCategoryApiClient, AdminApiTestApiClient, PostCategoryDto, PostDto, PostInListDto, PostInListDtoPagedResult } from 'src/app/api/admin-api.service.generated';
 import { MessageConstants } from 'src/app/shared/constants/message.constants';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { PostReturnReasonComponent } from './post-return-reason.component';
+import { PostActivityLogComponent } from './post-activity-log.component';
 
 @Component({
   selector: 'app-post',
@@ -123,8 +126,27 @@ export class PostComponent implements OnInit, OnDestroy {
     })
   }
   addToSeries(id: string) {
+    const ref = this.dialogService.open(PostSeriesComponent, {
+      data: { id: id },
+      header: 'Thêm vào loạt bài',
+      width: '70%'
+    });
+    ref.onClose.subscribe((data: PostDto) => {
+      if (data) {
+        this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
   }
   approve(id: string) {
+    this.confirmationService.confirm({
+      message: 'Bạn có xác nhận publish bài viết?',
+      accept: () => this.approveConfirm(id)
+    })
+  }
+
+  approveConfirm(id: string) {
     this.toggleBlockUI(true);
     this.postService.approvePost(id).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: () => {
@@ -139,6 +161,12 @@ export class PostComponent implements OnInit, OnDestroy {
     })
   }
   sendToApprove(id: string) {
+    this.confirmationService.confirm({
+      message: 'Bạn có muốn gửi duyệt bài viết?',
+      accept: () => this.sendToApproveConfirm(id)
+    })
+  }
+  sendToApproveConfirm(id: string) {
     this.toggleBlockUI(true);
     this.postService.sendToApprove(id).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: () => {
@@ -151,9 +179,35 @@ export class PostComponent implements OnInit, OnDestroy {
         this.toggleBlockUI(false);
       }
     })
-   }
-  reject(id: string) { }
-  showLogs(id: string) { }
+  }
+  reject(id: string) {
+    const ref = this.dialogService.open(PostReturnReasonComponent, {
+      data: { id: id },
+      header: 'Trả lại bài viết',
+      width: '70%'
+    });
+    ref.onClose.subscribe((data: PostDto) => {
+      if (data) {
+        this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
+  }
+  showLogs(id: string) {
+    const ref = this.dialogService.open(PostActivityLogComponent, {
+      data: { id: id },
+      header: 'Xem lịch sử',
+      width: '70%'
+    });
+    ref.onClose.subscribe((data: PostDto) => {
+      if (data) {
+        this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
+        this.selectedItems = [];
+        this.loadData();
+      }
+    })
+  }
 
   pageChanged(event: any): void {
     this.pageIndex = event.page;

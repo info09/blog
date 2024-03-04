@@ -78,7 +78,7 @@ namespace BlogCMS.API.Controllers.AdminApi
             return result > 0 ? Ok() : BadRequest();
         }
 
-        [HttpPut("post-series")]
+        [HttpPost("post-series")]
         [Authorize(Series.Edit)]
         public async Task<IActionResult> AddPostSeries([FromBody] AddPostSeriesRequest request)
         {

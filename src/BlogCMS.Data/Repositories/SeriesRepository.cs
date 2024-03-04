@@ -22,9 +22,13 @@ namespace BlogCMS.Data.Repositories
             this._mapper = mapper;
         }
 
-        public Task AddPostToSeries(Guid seriesId, Guid postId, int sortOrder)
+        public async Task AddPostToSeries(Guid seriesId, Guid postId, int sortOrder)
         {
-            throw new NotImplementedException();
+            var postInSeries = await _context.PostInSeries.AnyAsync(i => i.PostId == postId && i.SeriesId == seriesId);
+            if (!postInSeries)
+            {
+                await _context.PostInSeries.AddAsync(new PostInSeries { PostId = postId, SeriesId = seriesId, DisplayOrder = sortOrder });
+            }
         }
 
         public async Task<PagedResult<SeriesInListDto>> GetAllPaging(string? keyword, int pageIndex = 1, int pageSize = 10)

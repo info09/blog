@@ -1,3 +1,5 @@
+import { PostActivityLogComponent } from './posts/post-activity-log.component';
+import { PostReturnReasonComponent } from './posts/post-return-reason.component';
 import { SeriesPostsComponent } from './series/series-posts.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -30,6 +32,7 @@ import { SeriesComponent } from './series/series.component';
 import { SeriesDetailComponent } from './series/series-detail.component';
 import { BlogSharedModule } from 'src/app/shared/modules/blog-shared.module';
 import { PostDetailComponent } from './posts/post-detail.component';
+import { PostSeriesComponent } from './posts/post-series.component';
 
 @NgModule({
   imports: [
@@ -60,6 +63,9 @@ import { PostDetailComponent } from './posts/post-detail.component';
   declarations: [
     PostComponent,
     PostDetailComponent,
+    PostReturnReasonComponent,
+    PostActivityLogComponent,
+    PostSeriesComponent,
     PostCategoryComponent,
     PostCategoryDetailComponent,
     SeriesComponent,

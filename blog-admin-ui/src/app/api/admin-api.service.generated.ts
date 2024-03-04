@@ -1928,7 +1928,7 @@ export class AdminApiSeriesApiClient {
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processAddPostSeries(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3766,12 +3766,12 @@ export interface IPostInListDtoPagedResult {
 }
 
 export enum PostStatus {
+    _0 = 0,
     _1 = 1,
     _2 = 2,
     _3 = 3,
     _4 = 4,
     _5 = 5,
-    _6 = 6,
 }
 
 export class ReturnBackRequest implements IReturnBackRequest {
