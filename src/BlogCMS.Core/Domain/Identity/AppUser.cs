@@ -27,6 +27,8 @@ namespace BlogCMS.Core.Domain.Identity
         public DateTime? LastLoginDate { get; set; }
         public double Balance { get; set; }
 
+        public double RoyaltyAmountPerPost { get; set; }
+
         public string GetFullName()
         {
             return $"{this.FirstName} {this.LastName}";

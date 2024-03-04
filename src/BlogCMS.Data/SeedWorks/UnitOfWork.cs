@@ -29,6 +29,8 @@ namespace BlogCMS.Data.SeedWorks
 
         public ISeriesRepository Series { get; private set; }
 
+        public ITransactionRepository Transactions { get; private set; }
+
         public async Task<int> CompleteAsync()
         {
             return await _context.SaveChangesAsync();

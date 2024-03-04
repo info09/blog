@@ -6,9 +6,11 @@ using BlogCMS.Core.ConfigOptions;
 using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.SeedWorks;
+using BlogCMS.Core.Services;
 using BlogCMS.Data;
 using BlogCMS.Data.Repositories;
 using BlogCMS.Data.SeedWorks;
+using BlogCMS.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -89,9 +91,10 @@ builder.Services.AddAutoMapper(typeof(PostInListDto));
 builder.Services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
 builder.Services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IRoyaltyService, RoyaltyService>();
 
 //Default config for ASP.NET Core
 builder.Services.AddControllers();

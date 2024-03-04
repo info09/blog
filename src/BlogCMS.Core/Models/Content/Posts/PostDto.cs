@@ -18,8 +18,6 @@ namespace BlogCMS.Core.Models.Content.Posts
         public string? SeoDescription { get; set; }
 
         public DateTime? DateModified { get; set; }
-        public bool IsPaid { get; set; }
-        public double RoyaltyAmount { get; set; }
 
         public class AutoMapperProfiles : Profile
         {

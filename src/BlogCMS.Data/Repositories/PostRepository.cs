@@ -97,6 +97,11 @@ namespace BlogCMS.Data.Repositories
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
 
+        public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
+        {
+            return await _context.Posts.Where(i => i.AuthorUserId == userId && i.IsPaid == false && i.Status == PostStatus.Published).ToListAsync();
+        }
+
         public Task<List<Post>> GetPopularPostsAsync(int count)
         {
             return _context.Posts.OrderByDescending(i => i.ViewCount).Take(count).ToListAsync();
