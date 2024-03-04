@@ -7,6 +7,6 @@ namespace BlogCMS.Core.Repositories
 {
     public interface ITransactionRepository : IRepository<Transaction, Guid>
     {
-        Task<PagedResult<TransactionDto>> GetAllPaging(string? userName, int fromMonth, int fromYear, int toMonth, int toYear, int pageIndex = 1, int pageSize = 10);
+        Task<PagedResult<TransactionDto>> GetAllPaging(string? keyword, int fromMonth, int fromYear, int toMonth, int toYear, int pageIndex = 1, int pageSize = 10);
     }
 }

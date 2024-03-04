@@ -16,11 +16,11 @@ namespace BlogCMS.Data.Repositories
             _mapper = mapper;
         }
 
-        public async Task<PagedResult<TransactionDto>> GetAllPaging(string? userName, int fromMonth, int fromYear, int toMonth, int toYear, int pageIndex = 1, int pageSize = 10)
+        public async Task<PagedResult<TransactionDto>> GetAllPaging(string? keyword, int fromMonth, int fromYear, int toMonth, int toYear, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.Transactions.AsQueryable();
-            if (!string.IsNullOrEmpty(userName))
-                query = query.Where(i => i.ToUserName.ToLower().Contains(userName.ToLower().Trim()));
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(i => i.ToUserName.Contains(keyword.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase));
 
             if (fromMonth > 0 && fromYear > 0)
                 query = query.Where(i => i.DateCreated.Month >= fromMonth && i.DateCreated.Year >= fromYear);

@@ -20,6 +20,7 @@ namespace BlogCMS.Data.SeedWorks
             Users = new UserRepository(context, roleManager);
             PostCategories = new PostCategoryRepository(context, mapper);
             Series = new SeriesRepository(context, mapper);
+            Transactions = new TransactionRepository(context, mapper);
         }
 
         public IPostRepository Posts { get; private set; }
