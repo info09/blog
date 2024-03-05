@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlogCMS.Core\BlogCMS.Core.csproj" />
+    <ProjectReference Include="..\BlogCMS.Data\BlogCMS.Data.csproj" />
+  </ItemGroup>
+
 </Project>
