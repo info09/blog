@@ -114,7 +114,6 @@ export class UserComponent implements OnInit, OnDestroy {
         this.toggleBlockUI(false);
       },
       error: () => {
-        // this.alertService.showError(MessageConstants.DELETED_OK_MSG)
         this.toggleBlockUI(false);
       }
     })
@@ -167,7 +166,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
 
   pageChanged(event: any): void {
-    this.pageIndex = event.page;
+    this.pageIndex = event.page + 1;
     this.pageSize = event.rows;
     this.loadData();
   }

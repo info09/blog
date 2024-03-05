@@ -59,6 +59,11 @@ namespace BlogCMS.Data.Repositories
             return result;
         }
 
+        public async Task<bool> HasPost(Guid seriesId)
+        {
+            return await _context.PostInSeries.AnyAsync(i => i.SeriesId == seriesId);
+        }
+
         public async Task<bool> IsPostInSeries(Guid seriesId, Guid postId)
         {
             return await _context.PostInSeries.AnyAsync(i => i.PostId == postId && i.SeriesId == seriesId);

@@ -51,7 +51,7 @@ export class RoleComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event: any): void {
-    this.pageIndex = event.page;
+    this.pageIndex = event.page + 1;
     this.pageSize = event.rows;
     this.loadData();
   }
@@ -71,10 +71,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       header: name,
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((data: RoleDto) => {
       if (data) {
         this.alertService.showSuccess(
@@ -97,10 +93,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       header: 'Cập nhật quyền',
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
 
     ref.onClose.subscribe((data: RoleDto) => {
       if (data) {
@@ -116,10 +108,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       width: '70%'
     });
 
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((data: RoleDto) => {
       if (data) {
         this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
