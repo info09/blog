@@ -1,31 +1,33 @@
+import { RoyaltyMonthComponent } from './royalty-month/royalty-month.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../../../app/shared/auth.guard';
 import { TransactionComponent } from './transactions/transactions.component';
+import { RoyaltyUserComponent } from './royalty-user/royalty-user.component';
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'transactions',
     pathMatch: 'full',
   },
-//   {
-//     path: 'royalty-month',
-//     component: RoyaltyMonthComponent,
-//     data: {
-//       title: 'Thống kê tháng',
-//       requiredPolicy: 'Permissions.Royalty.View',
-//     },
-//     canActivate: [AuthGuard],
-//   },
-//   {
-//     path: 'royalty-user',
-//     component: RoyaltyUserComponent,
-//     data: {
-//       title: 'Thống kê tác giả',
-//       requiredPolicy: 'Permissions.Royalty.View',
-//     },
-//     canActivate: [AuthGuard],
-//   },
+  {
+    path: 'royalty-month',
+    component: RoyaltyMonthComponent,
+    data: {
+      title: 'Thống kê tháng',
+      requiredPolicy: 'Permissions.Royalty.View',
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'royalty-user',
+    component: RoyaltyUserComponent,
+    data: {
+      title: 'Thống kê tác giả',
+      requiredPolicy: 'Permissions.Royalty.View',
+    },
+    canActivate: [AuthGuard],
+  },
   {
     path: 'transactions',
     component: TransactionComponent,

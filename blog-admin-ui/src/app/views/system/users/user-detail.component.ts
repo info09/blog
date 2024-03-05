@@ -93,59 +93,59 @@ export class UserDetailComponent implements OnInit, OnDestroy {
 
     onFileChange(event) {
         const reader = new FileReader();
-    
+
         if (event.target.files && event.target.files.length) {
-          const [file] = event.target.files;
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            this.form.patchValue({
-              avatarFileName: file.name,
-              avatarFileContent: reader.result,
-            });
-    
-            // need to run CD since file load runs outside of zone
-            this.cd.markForCheck();
-          };
+            const [file] = event.target.files;
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                this.form.patchValue({
+                    avatarFileName: file.name,
+                    avatarFileContent: reader.result,
+                });
+
+                // need to run CD since file load runs outside of zone
+                this.cd.markForCheck();
+            };
         }
-      }
-      saveChange() {
+    }
+    saveChange() {
         this.toggleBlockUI(true);
-    
+
         this.saveData();
-      }
-    
-      private saveData() {
+    }
+
+    private saveData() {
         this.toggleBlockUI(true);
         console.log(this.form.value);
         if (this.utilService.isEmpty(this.config.data?.id)) {
-          this.userService
-            .createUser(this.form.value)
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe({
-              next: () => {
-                this.ref.close(this.form.value);
-                this.toggleBlockUI(false);
-              },
-              error: () => {
-                this.toggleBlockUI(false);
-              },
-            });
+            this.userService
+                .createUser(this.form.value)
+                .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe({
+                    next: () => {
+                        this.ref.close(this.form.value);
+                        this.toggleBlockUI(false);
+                    },
+                    error: () => {
+                        this.toggleBlockUI(false);
+                    },
+                });
         } else {
-          this.userService
-            .updateUser(this.config.data?.id, this.form.value)
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe({
-              next: () => {
-                this.toggleBlockUI(false);
-    
-                this.ref.close(this.form.value);
-              },
-              error: () => {
-                this.toggleBlockUI(false);
-              },
-            });
+            this.userService
+                .updateUser(this.config.data?.id, this.form.value)
+                .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe({
+                    next: () => {
+                        this.toggleBlockUI(false);
+
+                        this.ref.close(this.form.value);
+                    },
+                    error: () => {
+                        this.toggleBlockUI(false);
+                    },
+                });
         }
-      }
+    }
 
     setMode(mode: string) {
         if (mode == 'update') {
@@ -177,6 +177,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             avatarFile: new FormControl(null),
             avatar: new FormControl(this.selectedEntity.avatar || null),
             isActive: new FormControl(this.selectedEntity.isActive || true),
+            royaltyAmountPerPost: new FormControl(this.selectedEntity.royaltyAmountPerPost || null)
         })
     }
 

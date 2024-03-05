@@ -20,7 +20,7 @@ namespace BlogCMS.Data.Repositories
         {
             var query = _context.Transactions.AsQueryable();
             if (!string.IsNullOrEmpty(keyword))
-                query = query.Where(i => i.ToUserName.Contains(keyword.ToLower().Trim(), StringComparison.CurrentCultureIgnoreCase));
+                query = query.Where(i => i.ToUserName.Contains(keyword.ToLower().Trim()));
 
             if (fromMonth > 0 && fromYear > 0)
                 query = query.Where(i => i.DateCreated.Month >= fromMonth && i.DateCreated.Year >= fromYear);

@@ -1,3 +1,4 @@
+import { RoyaltyUserComponent } from './royalty-user/royalty-user.component';
 import { RoyaltyRoutingModule } from './royalty-routing.module';
 import { TransactionComponent } from './transactions/transactions.component';
 import { BlogSharedModule } from '../../shared/modules/blog-shared.module';
@@ -24,6 +25,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { EditorModule } from 'primeng/editor';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { RoyaltyMonthComponent } from './royalty-month/royalty-month.component';
 
 @NgModule({
   imports: [
@@ -52,8 +54,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     DynamicDialogModule,
   ],
   declarations: [
-    //RoyaltyMonthComponent,
-    //RoyaltyUserComponent,
+    RoyaltyMonthComponent,
+    RoyaltyUserComponent,
     TransactionComponent,
   ],
 })

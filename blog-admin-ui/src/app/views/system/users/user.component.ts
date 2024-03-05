@@ -64,10 +64,6 @@ export class UserComponent implements OnInit, OnDestroy {
       header: 'Thêm mới người dùng',
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((data: UserDto) => {
       if (data) {
         this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
@@ -88,10 +84,6 @@ export class UserComponent implements OnInit, OnDestroy {
       width: '70%'
     });
 
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((data: UserDto) => {
       if (data) {
         this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
@@ -133,10 +125,6 @@ export class UserComponent implements OnInit, OnDestroy {
       header: 'Đặt lại mật khẩu',
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((res: boolean) => {
       if (res) {
         this.alertService.showSuccess(MessageConstants.CHANGE_PASSWORD_SUCCCESS_MSG);
@@ -152,10 +140,6 @@ export class UserComponent implements OnInit, OnDestroy {
       header: 'Đặt lại email',
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
     ref.onClose.subscribe((res: boolean) => {
       if (res) {
         this.alertService.showSuccess(MessageConstants.CHANGE_EMAIL_SUCCCESS_MSG);
@@ -171,10 +155,6 @@ export class UserComponent implements OnInit, OnDestroy {
       header: 'Gán quyền',
       width: '70%'
     });
-    // const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-    // const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-    // const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-    // dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
 
     ref.onClose.subscribe((res: boolean) => {
       if (res) {

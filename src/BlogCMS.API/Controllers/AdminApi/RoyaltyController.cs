@@ -37,10 +37,10 @@ namespace BlogCMS.API.Controllers.AdminApi
 
         [HttpGet("Royalty-report-by-user")]
         [Authorize(Royalty.View)]
-        public async Task<ActionResult<List<RoyaltyReportByUserDto>>> GetRoyaltyReportByUser(Guid? userId,
+        public async Task<ActionResult<List<RoyaltyReportByUserDto>>> GetRoyaltyReportByUser(string? userName,
           int fromMonth, int fromYear, int toMonth, int toYear)
         {
-            var result = await _royaltyService.GetRoyaltyReportByUserAsync(userId, fromMonth, fromYear, toMonth, toYear);
+            var result = await _royaltyService.GetRoyaltyReportByUserAsync(userName, fromMonth, fromYear, toMonth, toYear);
             return Ok(result);
         }
 

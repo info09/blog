@@ -35,13 +35,13 @@ namespace BlogCMS.Data.Services
                                      $"sum(case when p.Status = 3 then 1 else 0 end) as NumberOfRejectedPosts," +
                                      $"sum(case when p.Status = 5 then 1 else 0 end) as NumberOfPublishPosts," +
                                      $"sum(case when p.Status = 5 and p.IsPaid = 1 then 1 else 0 end) as NumberOfPaidPublishPosts," +
-                                     $"sum(case when p.Status = 5 and p.IsPaid = 0 then 1 else 0 end) as NumberOfUnPaidPublishPosts" +
-                                $"from Posts p" +
-                                $"group by" +
+                                     $"sum(case when p.Status = 5 and p.IsPaid = 0 then 1 else 0 end) as NumberOfUnPaidPublishPosts " +
+                                $"from Posts p " +
+                                $"group by " +
                                      $"datepart(month, p.DateCreated)," +
                                      $"datepart(year, p.DateCreated)," +
-                                     $"p.AuthorUserId" +
-                                $"having" +
+                                     $"p.AuthorUserId " +
+                                $"having " +
                                      $"(@fromMonth = 0 or datepart(month,p.DateCreated) >= @fromMonth)" +
                                      $"and (@fromYear = 0 or datepart(year,p.DateCreated) >= @fromYear)" +
                                      $"and (@fromYear = 0 or datepart(month,p.DateCreated) <= @toMonth)" +
@@ -53,7 +53,7 @@ namespace BlogCMS.Data.Services
             }
         }
 
-        public async Task<List<RoyaltyReportByUserDto>> GetRoyaltyReportByUserAsync(Guid? userId, int fromMonth, int fromYear, int toMonth, int toYear)
+        public async Task<List<RoyaltyReportByUserDto>> GetRoyaltyReportByUserAsync(string? userName, int fromMonth, int fromYear, int toMonth, int toYear)
         {
             using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -62,16 +62,16 @@ namespace BlogCMS.Data.Services
                                     u.Id as UserId,
                                     u.UserName as UserName,
                                     sum(case when p.Status = 0 then 1 else 0 end) as NumberOfDraftPosts,
-                                    sum(case when p.Status = 1 then 1 else 0 end) as NumberOfWaitingApprovalPosts,
-                                    sum(case when p.Status = 2 then 1 else 0 end) as NumberOfRejectedPosts,
-                                    sum(case when p.Status = 3 then 1 else 0 end) as NumberOfPublishPosts,
-                                    sum(case when p.Status = 3 and p.IsPaid = 1 then 1 else 0 end) as NumberOfPaidPublishPosts,
-                                    sum(case when p.Status = 3 and p.IsPaid = 0 then 1 else 0 end) as NumberOfUnpaidPublishPosts
+                                    sum(case when p.Status = 2 then 1 else 0 end) as NumberOfWaitingApprovalPosts,
+                                    sum(case when p.Status = 3 then 1 else 0 end) as NumberOfRejectedPosts,
+                                    sum(case when p.Status = 5 then 1 else 0 end) as NumberOfPublishPosts,
+                                    sum(case when p.Status = 5 and p.IsPaid = 1 then 1 else 0 end) as NumberOfPaidPublishPosts,
+                                    sum(case when p.Status = 5 and p.IsPaid = 0 then 1 else 0 end) as NumberOfUnpaidPublishPosts
                             from Posts p join AppUsers u on p.AuthorUserId = u.Id
                             group by 
                                     datepart(month,p.DateCreated),
                                     datepart(year,p.DateCreated),
-                                    p.AuthorUserId,
+                                    p.AuthorUserName,
                                     u.Id,
                                     u.UserName
                              having 
@@ -79,7 +79,7 @@ namespace BlogCMS.Data.Services
                                     and (@fromYear = 0 or datepart(year,p.DateCreated) >= @fromYear)
                                     and (@fromYear = 0 or datepart(month,p.DateCreated) <= @toMonth)
                                     and (@toYear = 0 or datepart(year,p.DateCreated) <= @toYear)
-                                    and (@userId is null or p.AuthorUserId = @userId)";
+                                    and (@userName is null or p.AuthorUserName = @userName)";
 
                 var items = await conn.QueryAsync<RoyaltyReportByUserDto>(coreSQL, new
                 {
@@ -87,7 +87,7 @@ namespace BlogCMS.Data.Services
                     fromYear,
                     toMonth,
                     toYear,
-                    userId
+                    userName
                 }, null, 120, CommandType.Text);
                 return items.ToList();
             }
