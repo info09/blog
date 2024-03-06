@@ -97,6 +97,15 @@ namespace BlogCMS.Data.Repositories
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
 
+        public async Task<List<PostInListDto>> GetLatestPublishPost(int top)
+        {
+            var query = _context.Posts.Where(i => i.Status == PostStatus.Published).OrderByDescending(i => i.DateCreated).Take(top);
+
+            var data = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync();
+
+            return data;
+        }
+
         public async Task<List<Post>> GetListUnpaidPublishPosts(Guid userId)
         {
             return await _context.Posts.Where(i => i.AuthorUserId == userId && i.IsPaid == false && i.Status == PostStatus.Published).ToListAsync();
