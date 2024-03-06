@@ -22,5 +22,6 @@ namespace BlogCMS.Core.Repositories
         Task<List<Post>> GetListUnpaidPublishPosts(Guid userId);
         Task<List<PostInListDto>> GetLatestPublishPost(int top);
         Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10);
+        Task<PostDto> GetBySlug(string slug);
     }
 }

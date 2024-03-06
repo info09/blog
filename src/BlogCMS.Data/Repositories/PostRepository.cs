@@ -97,6 +97,12 @@ namespace BlogCMS.Data.Repositories
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
 
+        public async Task<PostDto> GetBySlug(string slug)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(i => i.Slug == slug);
+            return post == null ? throw new Exception($"Cannot find post with slug: {slug}") : _mapper.Map<PostDto>(post);
+        }
+
         public async Task<List<PostInListDto>> GetLatestPublishPost(int top)
         {
             var query = _context.Posts.Where(i => i.Status == PostStatus.Published).OrderByDescending(i => i.DateCreated).Take(top);
