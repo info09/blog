@@ -126,6 +126,8 @@ builder.Services.AddAuthentication(o =>
 
     cfg.TokenValidationParameters = new TokenValidationParameters
     {
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(0),
         ValidIssuer = configuration["JwtTokenSettings:Issuer"],
         ValidAudience = configuration["JwtTokenSettings:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtTokenSettings:Key"]))
