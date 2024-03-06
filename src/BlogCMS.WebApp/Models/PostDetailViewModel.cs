@@ -1,5 +1,6 @@
 ﻿using BlogCMS.Core.Models.Content.PostCategories;
 using BlogCMS.Core.Models.Content.Posts;
+using BlogCMS.Core.Models.Content.Tags;
 
 namespace BlogCMS.WebApp.Models
 {
@@ -7,5 +8,6 @@ namespace BlogCMS.WebApp.Models
     {
         public PostDto Post { get; set; }
         public PostCategoryDto Category { get; set; }
+        public List<TagDto> Tags { get; set; }
     }
 }

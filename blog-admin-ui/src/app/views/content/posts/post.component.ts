@@ -78,6 +78,9 @@ export class PostComponent implements OnInit, OnDestroy {
         this.selectedItems = [];
         this.loadData();
       }
+      else{
+        this.toggleBlockUI(false);
+      }
     })
   }
   showEditModal() {

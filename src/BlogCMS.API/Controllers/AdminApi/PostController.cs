@@ -2,6 +2,7 @@
 using BlogCMS.API.Extensions;
 using BlogCMS.Core.Domain.Content;
 using BlogCMS.Core.Domain.Identity;
+using BlogCMS.Core.Helpers;
 using BlogCMS.Core.Models;
 using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.Models.Content.Series;
@@ -34,8 +35,10 @@ namespace BlogCMS.API.Controllers.AdminApi
             if (await _unitOfWork.Posts.IsSlugAlreadyExisted(request.Slug)) return BadRequest("Đã tồn tại slug");
 
             var post = _mapper.Map<CreateUpdatePostRequest, Post>(request);
+            var postId = Guid.NewGuid();
             var category = await _unitOfWork.PostCategories.GetByIdAsync(post.CategoryId);
             if (category == null) return BadRequest($"Không tồn tại danh mục có Id = {post.CategoryId}");
+            post.Id = postId;
             post.CategoryName = category.Name;
             post.CategorySlug = category.Slug;
 
@@ -44,6 +47,26 @@ namespace BlogCMS.API.Controllers.AdminApi
             post.AuthorUserId = userId;
             post.AuthorName = user.GetFullName();
             post.AuthorUserName = user.UserName;
+
+            if (request.Tags != null && request.Tags.Length > 0)
+            {
+                foreach (var tagName in request.Tags)
+                {
+                    var tagSlug = TextHelper.ToUnsignedString(tagName);
+                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
+                    Guid tagId;
+                    if (tag == null)
+                    {
+                        tagId = Guid.NewGuid();
+                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
+                    }
+                    else
+                    {
+                        tagId = tag.Id;
+                    }
+                    await _unitOfWork.Posts.AddTagToPost(postId, tagId);
+                }
+            }
 
             _unitOfWork.Posts.Add(post);
             var result = await _unitOfWork.CompleteAsync();
@@ -70,6 +93,28 @@ namespace BlogCMS.API.Controllers.AdminApi
             }
 
             _mapper.Map(request, post);
+
+            if (request.Tags != null && request.Tags.Length > 0)
+            {
+                foreach (var tagName in request.Tags)
+                {
+                    var tagSlug = TextHelper.ToUnsignedString(tagName);
+                    var tag = await _unitOfWork.Tags.GetBySlug(tagSlug);
+                    Guid tagId;
+                    if (tag == null)
+                    {
+                        tagId = Guid.NewGuid();
+                        _unitOfWork.Tags.Add(new Tag() { Id = tagId, Name = tagName, Slug = tagSlug });
+
+                    }
+                    else
+                    {
+                        tagId = tag.Id;
+                    }
+                    await _unitOfWork.Posts.AddTagToPost(id, tagId);
+
+                }
+            }
 
             var result = await _unitOfWork.CompleteAsync();
             return result > 0 ? Ok(result) : BadRequest();
@@ -160,6 +205,22 @@ namespace BlogCMS.API.Controllers.AdminApi
         {
             var logs = await _unitOfWork.Posts.GetActivityLogs(id);
             return Ok(logs);
+        }
+
+        [HttpGet("tags")]
+        [Authorize(Posts.View)]
+        public async Task<ActionResult<List<string>>> GetAllTags()
+        {
+            var logs = await _unitOfWork.Posts.GetAllTags();
+            return Ok(logs);
+        }
+
+        [HttpGet("tags/{postId}")]
+        [Authorize(Posts.View)]
+        public async Task<ActionResult<List<string>>> GetPostTags(Guid postId)
+        {
+            var tagNames = await _unitOfWork.Posts.GetTagsByPostId(postId);
+            return Ok(tagNames);
         }
     }
 }

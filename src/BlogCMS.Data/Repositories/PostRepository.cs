@@ -4,6 +4,7 @@ using BlogCMS.Core.Domain.Identity;
 using BlogCMS.Core.Models;
 using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.Models.Content.Series;
+using BlogCMS.Core.Models.Content.Tags;
 using BlogCMS.Core.Repositories;
 using BlogCMS.Core.SeedWorks.Constants;
 using BlogCMS.Data.SeedWorks;
@@ -20,6 +21,15 @@ namespace BlogCMS.Data.Repositories
         {
             _mapper = mapper;
             _userManager = userManager;
+        }
+
+        public async Task AddTagToPost(Guid postId, Guid tagId)
+        {
+            await _context.PostTags.AddAsync(new PostTag()
+            {
+                PostId = postId,
+                TagId = tagId
+            });
         }
 
         public async Task Approve(Guid id, Guid currentUserId)
@@ -97,6 +107,12 @@ namespace BlogCMS.Data.Repositories
             return await _mapper.ProjectTo<SeriesInListDto>(query).ToListAsync();
         }
 
+        public async Task<List<string>> GetAllTags()
+        {
+            var query = await _context.Tags.Select(i => i.Name).ToListAsync();
+            return query;
+        }
+
         public async Task<PostDto> GetBySlug(string slug)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(i => i.Slug == slug);
@@ -140,6 +156,24 @@ namespace BlogCMS.Data.Repositories
             };
         }
 
+        public async Task<PagedResult<PostInListDto>> GetPostByTagPaging(string tagSlug, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = from p in _context.Posts
+                        join pt in _context.PostTags on p.Id equals pt.PostId
+                        join t in _context.Tags on pt.TagId equals t.Id
+                        where t.Slug == tagSlug
+                        select p;
+            var totalRow = await query.CountAsync();
+            query = query.OrderByDescending(i => i.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                RowCount = totalRow,
+                PageSize = pageSize,
+                CurrentPage = pageIndex
+            };
+        }
+
         public async Task<PagedResult<PostInListDto>> GetPostsPagingAsync(string? keyword, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.Posts.AsQueryable();
@@ -166,6 +200,29 @@ namespace BlogCMS.Data.Repositories
         {
             var activity = await _context.PostActivityLogs.Where(i => i.PostId == id && i.ToStatus == PostStatus.Rejected).OrderByDescending(i => i.DateCreated).FirstOrDefaultAsync();
             return activity?.Note!;
+        }
+
+        public async Task<List<TagDto>> GetTagObjectsByPostId(Guid postId)
+        {
+            var query = from p in _context.Posts
+                        join pt in _context.PostTags on p.Id equals pt.PostId
+                        join t in _context.Tags on pt.TagId equals t.Id
+                        where pt.PostId == postId
+                        select t;
+
+            var totalRow = await query.CountAsync();
+
+            return await _mapper.ProjectTo<TagDto>(query).ToListAsync();
+        }
+
+        public async Task<List<string>> GetTagsByPostId(Guid postId)
+        {
+            var query = from post in _context.Posts
+                        join pt in _context.PostTags on post.Id equals pt.PostId
+                        join t in _context.Tags on pt.TagId equals t.Id
+                        where post.Id == postId
+                        select t.Name;
+            return await query.ToListAsync();
         }
 
         public async Task<bool> HasPublishInLast(Guid id)
