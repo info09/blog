@@ -116,6 +116,24 @@ namespace BlogCMS.Data.Repositories
             return _context.Posts.OrderByDescending(i => i.ViewCount).Take(count).ToListAsync();
         }
 
+        public async Task<PagedResult<PostInListDto>> GetPostByCategoryPaging(string categorySlug, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = _context.Posts.AsQueryable();
+            if (!string.IsNullOrEmpty(categorySlug))
+                query = query.Where(i => i.CategorySlug == categorySlug);
+
+            var totalRow = await query.CountAsync();
+            query = query.OrderByDescending(i => i.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                RowCount = totalRow,
+                CurrentPage = pageIndex,
+                PageSize = pageSize
+            };
+        }
+
         public async Task<PagedResult<PostInListDto>> GetPostsPagingAsync(string? keyword, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.Posts.AsQueryable();

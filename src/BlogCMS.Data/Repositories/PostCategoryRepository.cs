@@ -35,6 +35,12 @@ namespace BlogCMS.Data.Repositories
             };
         }
 
+        public async Task<PostCategoryDto> GetBySlug(string slug)
+        {
+            var category = await _context.PostCategories.FirstOrDefaultAsync(i => i.Slug == slug);
+            return category == null ? throw new Exception($"Cannot find {slug}") : _mapper.Map<PostCategoryDto>(category);
+        }
+
         public async Task<bool> HasPost(Guid categoryId)
         {
             return await _context.Posts.AnyAsync(i => i.CategoryId == categoryId);
