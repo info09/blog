@@ -10,8 +10,6 @@ namespace BlogCMS.Data.SeedWorks
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BlogCMSContext _context;
-        private readonly RoleManager<AppRole> _roleManager;
-        private readonly UserManager<AppUser> userManager;
 
         public UnitOfWork(BlogCMSContext context, IMapper mapper, RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
         {
@@ -31,6 +29,8 @@ namespace BlogCMS.Data.SeedWorks
         public ISeriesRepository Series { get; private set; }
 
         public ITransactionRepository Transactions { get; private set; }
+
+        public ITagRepository Tags { get; private set; }
 
         public async Task<int> CompleteAsync()
         {
