@@ -1,3 +1,4 @@
+import { BroadcastService } from './shared/services/broadcast.service';
 import { UploadService } from './shared/services/upload.service';
 import { NgModule } from '@angular/core';
 import {
@@ -66,7 +67,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenStorageService } from './shared/services/token-storage.service';
 import { AuthGuard } from './shared/auth.guard';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
-import { GlobalHttpInterceptorService } from './shared/interceptors/error-handler.interceptor';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { UtilityService } from './shared/services/utility.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -119,11 +119,6 @@ const APP_CONTAINERS = [
       multi: true
     },
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: GlobalHttpInterceptorService,
-      multi: true
-    },
-    {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
     },
@@ -145,7 +140,8 @@ const APP_CONTAINERS = [
     DialogService,
     UtilityService,
     ConfirmationService ,
-    UploadService
+    UploadService,
+    BroadcastService
   ],
   bootstrap: [AppComponent],
 })

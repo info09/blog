@@ -49,8 +49,8 @@ namespace BlogCMS.API.Controllers.AdminApi
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(i => i.FirstName.ToLower().Contains(keyword.ToLower().Trim()) ||
                                         i.LastName.ToLower().Contains(keyword.ToLower().Trim()) ||
-                                        i.UserName.ToLower().Contains(keyword.ToLower().Trim()) ||
-                                        i.Email.ToLower().Contains(keyword.ToLower().Trim()));
+                                        i.UserName!.ToLower().Contains(keyword.ToLower().Trim()) ||
+                                        i.Email!.ToLower().Contains(keyword.ToLower().Trim()));
 
             var totalRow = await query.CountAsync();
 
