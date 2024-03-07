@@ -1,5 +1,6 @@
 using BlogCMS.Core.ConfigOptions;
 using BlogCMS.Core.Domain.Identity;
+using BlogCMS.Core.Events.LoginSuccessed;
 using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.SeedWorks;
 using BlogCMS.Data;
@@ -46,6 +47,7 @@ builder.Services.AddScoped(typeof(IRepository<,>), typeof(RepositoryBase<,>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAutoMapper(typeof(PostInListDto));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginSuccessEvent).Assembly));
 
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
