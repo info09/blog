@@ -50,6 +50,7 @@ builder.Services.AddAutoMapper(typeof(PostInListDto));
 builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
 
 // Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()
@@ -66,7 +67,7 @@ foreach (var service in services)
     }
 }
 
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
+
 
 var app = builder.Build();
 
