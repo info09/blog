@@ -17,6 +17,10 @@
         public static string SeriesDetail = "/series/{0}";
         public static string ChangeProfile = "/profile/edit";
 
-        public static string ChangePassword = "/change-password";
+        public static string ForgotPassword = "/forgot-password";
+        public static string ResetPassword = "/reset-password";
+
+
+        public static string ChangePassword = "/profile/change-password";
     }
 }
