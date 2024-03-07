@@ -14,5 +14,7 @@ namespace BlogCMS.Core.Repositories
         Task<List<PostInListDto>> GetAllPostsInSeries(Guid seriesId);
         Task<bool> IsPostInSeries(Guid seriesId, Guid postId);
         Task<bool> HasPost(Guid seriesId);
+        Task<PagedResult<PostInListDto>> GetAllPostsInSeries(string slug, int pageIndex = 1, int pageSize = 10);
+        Task<SeriesDto> GetBySlug(string slug);
     }
 }

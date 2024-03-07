@@ -6,11 +6,6 @@ using BlogCMS.Core.Models.Content.Series;
 using BlogCMS.Core.Repositories;
 using BlogCMS.Data.SeedWorks;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlogCMS.Data.Repositories
 {
@@ -59,6 +54,34 @@ namespace BlogCMS.Data.Repositories
             return result;
         }
 
+        public async Task<PagedResult<PostInListDto>> GetAllPostsInSeries(string slug, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = from pis in _context.PostInSeries
+                        join p in _context.Posts
+                        on pis.PostId equals p.Id
+                        join s in _context.Series
+                        on pis.SeriesId equals s.Id
+                        where s.Slug == slug
+                        select p;
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(i => i.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                RowCount = totalRow,
+                CurrentPage = pageIndex,
+                PageSize = pageSize
+            };
+        }
+
+        public async Task<SeriesDto> GetBySlug(string slug)
+        {
+            var series = await _context.Series.FirstOrDefaultAsync(i => i.Slug == slug);
+            return _mapper.Map<SeriesDto>(series);
+        }
+
         public async Task<bool> HasPost(Guid seriesId)
         {
             return await _context.PostInSeries.AnyAsync(i => i.SeriesId == seriesId);
@@ -72,7 +95,7 @@ namespace BlogCMS.Data.Repositories
         public async Task RemovePostToSeries(Guid seriesId, Guid postId)
         {
             var postInSeries = await _context.PostInSeries.FirstOrDefaultAsync(i => i.SeriesId == seriesId && i.PostId == postId);
-            if(postInSeries != null)
+            if (postInSeries != null)
             {
                 _context.PostInSeries.Remove(postInSeries);
             }
