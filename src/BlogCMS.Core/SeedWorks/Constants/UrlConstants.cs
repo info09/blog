@@ -19,7 +19,8 @@
 
         public static string ForgotPassword = "/forgot-password";
         public static string ResetPassword = "/reset-password";
-
+        public static string CreatePost = "/profile/posts/create";
+        public static string PostListByUser = "/profile/posts/list";
 
         public static string ChangePassword = "/profile/change-password";
     }

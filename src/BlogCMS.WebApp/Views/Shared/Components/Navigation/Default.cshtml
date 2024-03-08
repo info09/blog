@@ -35,6 +35,7 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a class="btn" href="@UrlConstants.Profile">@User.GetFirstName()</a>
+                    <a class="btn" href="@UrlConstants.CreatePost">CreatePost</a>
                 }
                 else
                 {
