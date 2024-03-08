@@ -174,6 +174,25 @@ namespace BlogCMS.Data.Repositories
             };
         }
 
+        public async Task<PagedResult<PostInListDto>> GetPostByUserPaging(string keyword, Guid userId, int pageIndex = 1, int pageSize = 10)
+        {
+            var query = _context.Posts.Where(i => i.AuthorUserId == userId).AsQueryable();
+            if(!string.IsNullOrEmpty(keyword))
+                query = query.Where(i => i.Name.ToLower().Contains(keyword.ToLower()));
+
+            var totalRow = await query.CountAsync();
+
+            query = query.OrderByDescending(i => i.DateCreated).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            return new PagedResult<PostInListDto>
+            {
+                Results = await _mapper.ProjectTo<PostInListDto>(query).ToListAsync(),
+                CurrentPage = pageIndex,
+                PageSize = pageSize,
+                RowCount = totalRow
+            };
+        }
+
         public async Task<PagedResult<PostInListDto>> GetPostsPagingAsync(string? keyword, Guid? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             var query = _context.Posts.AsQueryable();
