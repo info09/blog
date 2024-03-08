@@ -7,6 +7,7 @@ using BlogCMS.Data;
 using BlogCMS.Data.Repositories;
 using BlogCMS.Data.SeedWorks;
 using BlogCMS.WebApp.Helper;
+using BlogCMS.WebApp.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
 builder.Services.AddControllersWithViews();
 
 builder.Services.Configure<SystemConfig>(configuration.GetSection("SystemConfig"));
+builder.Services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+
 builder.Services.AddDbContext<BlogCMSContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<BlogCMSContext>().AddDefaultTokenProviders();
 
@@ -53,6 +56,7 @@ builder.Services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
+builder.Services.AddScoped<IEmailSender, EmailService>();
 
 // Business services and repositories
 var services = typeof(PostRepository).Assembly.GetTypes()
