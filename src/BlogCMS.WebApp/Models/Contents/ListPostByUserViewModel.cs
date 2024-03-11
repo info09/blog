@@ -1,7 +1,7 @@
 ﻿using BlogCMS.Core.Models;
 using BlogCMS.Core.Models.Content.Posts;
 
-namespace BlogCMS.WebApp.Models
+namespace BlogCMS.WebApp.Models.Contents
 {
     public class ListPostByUserViewModel
     {

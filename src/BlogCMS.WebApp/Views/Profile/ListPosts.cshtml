@@ -60,7 +60,7 @@
                     @foreach (var item in Model.Posts.Results)
                     {
                         <tr>
-                            <td><a href="@UrlConstants.CreatePost?id=@item.Id">@item.Name</a></td>
+                            <td><a href="@string.Format(UrlConstants.PostDetails, item.Slug)">@item.Name</a></td>
                             <td>@item.CategoryName</td>
                             <td>@item.DateCreated</td>
                             <td>@item.ViewCount</td>

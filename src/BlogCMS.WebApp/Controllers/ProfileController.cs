@@ -6,16 +6,16 @@ using BlogCMS.Core.SeedWorks;
 using BlogCMS.Core.SeedWorks.Constants;
 using BlogCMS.WebApp.Extensions;
 using BlogCMS.WebApp.Models;
+using BlogCMS.WebApp.Models.Contents;
+using BlogCMS.WebApp.Models.Systems;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using System.Net;
 using System.Text.Json;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace BlogCMS.WebApp.Controllers
 {
@@ -235,9 +235,10 @@ namespace BlogCMS.WebApp.Controllers
 
         private async Task<CreatePostViewModel> SetCreatePostModel()
         {
-            var model = new CreatePostViewModel() { 
-                Title = "Untitled", 
-                Categories = new SelectList(await _unitOfWork.PostCategories.GetAllAsync(), "Id", "Name") 
+            var model = new CreatePostViewModel()
+            {
+                Title = "Untitled",
+                Categories = new SelectList(await _unitOfWork.PostCategories.GetAllAsync(), "Id", "Name")
             };
 
             return model;

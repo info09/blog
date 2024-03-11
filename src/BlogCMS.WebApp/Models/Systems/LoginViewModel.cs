@@ -1,19 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogCMS.WebApp.Models
+namespace BlogCMS.WebApp.Models.Systems
 {
-    public class RegsiterViewModel
+    public class LoginViewModel
     {
-        [Required(ErrorMessage = "First name is required")]
-        [DisplayName("First Name")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Last name is required")]
-        [DisplayName("Last Name")]
-
-        public string LastName { get; set; }
-
         [Required(ErrorMessage = "Email is required")]
         [DisplayName("Email")]
         public string Email { get; set; }
@@ -21,5 +12,7 @@ namespace BlogCMS.WebApp.Models
         [Required(ErrorMessage = "Password is required")]
         [DisplayName("Password")]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }
