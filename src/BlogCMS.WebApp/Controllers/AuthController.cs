@@ -5,6 +5,7 @@ using BlogCMS.Core.Events.RegisterSuccessed;
 using BlogCMS.Core.SeedWorks.Constants;
 using BlogCMS.WebApp.Extensions;
 using BlogCMS.WebApp.Models;
+using BlogCMS.WebApp.Models.Systems;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

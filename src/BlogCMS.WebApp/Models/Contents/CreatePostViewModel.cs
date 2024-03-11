@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace BlogCMS.WebApp.Models
+namespace BlogCMS.WebApp.Models.Contents
 {
     public class CreatePostViewModel
     {

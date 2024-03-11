@@ -2,7 +2,7 @@
 using BlogCMS.Core.Models.Content.Posts;
 using BlogCMS.Core.Models.Content.Series;
 
-namespace BlogCMS.WebApp.Models
+namespace BlogCMS.WebApp.Models.Contents
 {
     public class SeriesDetailViewModel
     {

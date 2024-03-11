@@ -1,5 +1,5 @@
 ﻿using BlogCMS.Core.SeedWorks;
-using BlogCMS.WebApp.Models;
+using BlogCMS.WebApp.Models.Contents;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogCMS.WebApp.Controllers

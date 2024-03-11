@@ -1,4 +1,4 @@
-﻿using BlogCMS.WebApp.Models;
+﻿using BlogCMS.WebApp.Models.Systems;
 
 namespace BlogCMS.WebApp.Services
 {

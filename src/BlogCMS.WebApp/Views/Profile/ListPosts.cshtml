@@ -18,6 +18,9 @@
 </header>
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
+
+    <div class="alert alert-success">HuyTQ</div>
+
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-12 col-lg-12 col-xl-12">
             <table class="table table-borderless">
@@ -60,7 +63,7 @@
                     @foreach (var item in Model.Posts.Results)
                     {
                         <tr>
-                            <td><a href="@UrlConstants.CreatePost?id=@item.Id">@item.Name</a></td>
+                            <td><a href="@string.Format(UrlConstants.PostDetails, item.Slug)">@item.Name</a></td>
                             <td>@item.CategoryName</td>
                             <td>@item.DateCreated</td>
                             <td>@item.ViewCount</td>

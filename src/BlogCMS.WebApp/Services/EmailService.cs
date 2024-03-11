@@ -1,5 +1,5 @@
 ﻿using BlogCMS.Core.ConfigOptions;
-using BlogCMS.WebApp.Models;
+using BlogCMS.WebApp.Models.Systems;
 using HandlebarsDotNet;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;

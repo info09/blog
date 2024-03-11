@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace BlogCMS.WebApp.Models
+namespace BlogCMS.WebApp.Models.Systems
 {
     public class ChangeProfileViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace BlogCMS.WebApp.Models
+﻿namespace BlogCMS.WebApp.Models.Systems
 {
     public class ProfileViewModel
     {
