@@ -19,7 +19,7 @@ namespace BlogCMS.WebApp.Controllers
             return View(series);
         }
 
-        [Route("series/slug")]
+        [Route("series/{slug}")]
         public async Task<IActionResult> Details([FromRoute] string slug)
         {
             var posts = await _unitOfWork.Series.GetAllPostsInSeries(slug);
