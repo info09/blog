@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
+    production: false,
     API_URL: 'http://api-uat.runasp.net',
   };
